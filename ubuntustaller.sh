@@ -143,6 +143,13 @@ sed -i "s/EXTERNAL_IFACE/${WAN_IFACE}/g" /etc/init.d/ubilling
 sed -i "s/INTERNAL_NETWORK/${LAN_NET}/g" /etc/init.d/ubilling
 sed -i "s/INTERNAL_MASK/${LAN_MASK}/g" /etc/init.d/ubilling
 sed -i "s/INTERNAL_IFACE/${LAN_IFACE}/g" /etc/init.d/ubilling
-ln -fs /usr/sbin/ipset /usr/local/sbin/ipset
-
 update-rc.d ubilling defaults
+
+#post install ugly hacks
+mkdir /etc/stargazer/dn
+ln -fs  /usr/bin/php /usr/local/bin/php 
+ln -fs /usr/sbin/ipset /usr/local/sbin/ipset
+sed -i "s/eth0/${WAN_IFACE}/g" /etc/stargazer/OnConnect
+sed -i "s/eth1/${LAN_IFACE}/g" /etc/stargazer/OnConnect
+sed -i "s/eth0/${WAN_IFACE}/g" /etc/stargazer/OnDisconnect
+sed -i "s/eth1/${LAN_IFACE}/g" /etc/stargazer/OnDisconnect
