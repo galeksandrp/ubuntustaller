@@ -117,6 +117,8 @@ echo " *.*                       /var/log/dhcpd.log" >> /etc/rsyslog.d/50-defaul
 touch /var/log/dhcpd.log
 chmod 777 /var/log/dhcpd.log
 service rsyslog restart
+echo "INTERFACES=\"${LAN_IFACE}"\" > /etc/default/isc-dhcp-server
+service isc-dhcp-server restart
 ##### TO BE CONTINUED ##########
 
 #extractiong presets
