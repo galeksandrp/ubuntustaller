@@ -118,8 +118,12 @@ touch /var/log/dhcpd.log
 chmod 777 /var/log/dhcpd.log
 service rsyslog restart
 echo "INTERFACES=\"${LAN_IFACE}"\" > /etc/default/isc-dhcp-server
+sed -i "s/\/etc\/dhcp\/dhcpd.conf/\/var\/www\/billing\/multinet\/dhcpd.conf/g" /etc/init/isc-dhcp-server.conf
+sed -i "s/\/usr\/local\/etc/\/var\/www\/billing/g"  /var/www/billing/config/dhcp/subnets.template
+wget https://raw.github.com/nightflyza/ubuntustaller/master/usr.sbin.dhcpd
+cp -f usr.sbin.dhcpd /etc/apparmor.d/
+apparmor_parser -r /etc/apparmor.d/usr.sbin.dhcpd
 service isc-dhcp-server restart
-##### TO BE CONTINUED ##########
 
 #extractiong presets
 cp -f /var/www/billing/docs/presets/Linux/etc/* /etc/stargazer/
