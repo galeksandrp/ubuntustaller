@@ -7,7 +7,7 @@
 WAN_IP="EXTERNAL_IP" #IP адрес внешнего интерфейса
 IF_WORLD="EXTERNAL_IFACE" #Интерфейс смотрящий в грешный мир
 LAN_IF="INTERNAL_IFACE"
-USERS_NET="INTERNAL_NETWORK"
+USERS_NET="INTERNAL_NETWORK/INTERNAL_MASK"
 HTB="/etc/init.d/htb" #Путь к шейперу
 IPT="/sbin/iptables" # Путь до IPTABLES
 IPS="/usr/local/sbin/ipset" # Путь до IPSET

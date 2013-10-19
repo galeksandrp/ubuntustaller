@@ -5,7 +5,8 @@
 MYSQL_PASSWD="changemedb"
 STG_PASS="stgpass"
 LAN_IFACE="eth0"
-LAN_NET="172.16.0.0/24"
+LAN_NET="172.16.0.0"
+LAN_MASK="24"
 WAN_IFACE="eth1"
 WAN_IP="10.0.3.15"
 
@@ -140,6 +141,7 @@ chmod a+x /etc/init.d/ubilling
 sed -i "s/EXTERNAL_IP/${WAN_IP}/g" /etc/init.d/ubilling
 sed -i "s/EXTERNAL_IFACE/${WAN_IFACE}/g" /etc/init.d/ubilling
 sed -i "s/INTERNAL_NETWORK/${LAN_NET}/g" /etc/init.d/ubilling
+sed -i "s/INTERNAL_MASK/${LAN_MASK}/g" /etc/init.d/ubilling
 sed -i "s/INTERNAL_IFACE/${LAN_IFACE}/g" /etc/init.d/ubilling
 
 update-rc.d ubilling defaults
