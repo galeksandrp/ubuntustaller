@@ -12,7 +12,7 @@ WAN_IFACE="eth1"
 
 #setting mysql passwords
 echo mysql-server-5.5 mysql-server/root_password password ${MYSQL_PASSWD} | debconf-set-selections
-echo mysql-server-5.5 mysql-server/root_password_again password {MYSQL_PASSWD} | debconf-set-selections
+echo mysql-server-5.5 mysql-server/root_password_again password ${MYSQL_PASSWD} | debconf-set-selections
 
 #deps install
 apt-get -y install mysql-server-core-5.5 mysql-client-core-5.5 libmysqlclient18 libmysqlclient-dev apache2 mysql-server expat libexpat-dev php5-cli libapache2-mod-php5 php5-mysql dhcp3-server build-essential bind9 bandwidthd softflowd
