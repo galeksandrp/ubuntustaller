@@ -6,75 +6,55 @@
 
 WAN_IP="EXTERNAL_IP" #IP адрес внешнего интерфейса
 IF_WORLD="EXTERNAL_IFACE" #Интерфейс смотрящий в грешный мир
+LAN_IF="INTERNAL_IFACE"
 USERS_NET="INTERNAL_NETWORK"
 HTB="/etc/init.d/htb" #Путь к шейперу
 IPT="/sbin/iptables" # Путь до IPTABLES
 IPS="/usr/local/sbin/ipset" # Путь до IPSET
 SQL="/etc/init.d/mysql" # Путь до init.d скрипта MySQL
 WEB="/etc/init.d/apache2" #  Путь до init.d скрипта Apache2
-DHCP="/etc/init.d/dhcp3-server" # Путь до init.d скрипта Dhcp3-server
+DHCP="/etc/init.d/isc-dhcp-server" # Путь до init.d скрипта Dhcp3-server
 BAND="/etc/init.d/bandwidthd" # Путь до init.d скрипта Bandwindthd
 STAR="/usr/sbin/stargazer" # Путь до bin файла stargazer
 SOFTD="/etc/init.d/softflowd" #  Путь до init.d скрипта  Softflowd
 #Softflowd для разных подсетей
-SOFT="/usr/sbin/softflowd -i INTERNAL_IFACE -n 127.0.0.1:42111" # Тут указываем интерфейс на котором висят пользователи 
+SOFT="/usr/sbin/softflowd -i ${LAN_IF}  -n 127.0.0.1:42111" # Тут указываем интерфейс на котором висят пользователи 
 
  case "$1" in
    start)
-
 #Перезапускаем MySql, Apache, Dhcp3-server
 $SQL restart
 $WEB restart
 $DHCP restart
-
 ######################################################################################
-
 #Разрешаем хождение пакетов
 echo 1 > /proc/sys/net/ipv4/ip_forward
-
 # Создаём списки для подсети: (172)
 $IPS -N FFIN ipmap --network ${USERS_NET}
 $IPS -N FSNAT ipmap --network ${USERS_NET}
 $IPS -N FSNATDROP ipmap --network ${USERS_NET}
-
-
-
 # Добавляем наши адреса в NAT таблицу
-#(172)
 $IPT -t nat -A POSTROUTING -m set --set FSNAT src -o $IF_WORLD -j SNAT --to-source $WAN_IP
 $IPT -t filter -I FORWARD -m set --set FFIN src,dst -j ACCEPT
 $IPT -t filter -I FORWARD -m set --set FFIN dst,src -j ACCEPT
 $IPT -t filter -I FORWARD -m set --set FSNATDROP src,dst -j DROP
 $IPT -t filter -I FORWARD -m set --set FSNATDROP dst,src -j DROP
-
-
-
-############################################################################################
-
 # Запускаем Bandwindthd
 $BAND start
-
 # Запускаем HTB (Шейпер)
 $HTB start
-
 # Запускаем прослушку Softflowd для (172)
 $SOFT
-
 # Запускаем Stargazer
 $STAR
      ;;
 
 
-
-
-
    stop)
-
 #Убиваем все процессы старгазера
 killall stargazer
-
 #Удаляем правила шейпера
-tc qdisc del dev eth1 root #(172)
+tc qdisc del dev ${LAN_IF} root #(172)
 
 #Останавливаем softflowd
 $SOFTD stop
