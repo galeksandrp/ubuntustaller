@@ -21,7 +21,7 @@ ln -fs /var/lib/bandwidthd/htdocs/ /var/www/band
 apt-get -y install ipset
 modprobe ip_set
 #htb init script setup
-wget http://store.nightfly.biz/st/1378761465/htb.init
+wget https://raw.github.com/nightflyza/ubuntustaller/master/htb.init
 cp htb.init /etc/init.d/htb
 chmod a+x /etc/init.d/htb
 update-rc.d htb defaults
@@ -57,7 +57,7 @@ cd ../sgconf && ./build && make && make install
 cd ../sgconf_xml/ && ./build && make && make install
 
 #updating stargazer config
-wget http://store.nightfly.biz/st/1378762800/stargazer.conf
+wget https://raw.github.com/nightflyza/ubuntustaller/master/stargazer.conf
 cp -R stargazer.conf /etc/stargazer/
 perl -e "s/newpassword/${MYSQL_PASSWD}/g" -pi /etc/stargazer/stargazer.conf
 
@@ -88,7 +88,7 @@ perl -e "s/mylogin/root/g" -pi ./userstats/config/mysql.ini
 perl -e "s/newpassword/${MYSQL_PASSWD}/g" -pi ./userstats/config/mysql.ini
 
 #hotfix 2.408 admin permissions trouble
-wget http://store.nightfly.biz/st/1378763826/admin_rights_hotfix.sql
+wget https://raw.github.com/nightflyza/ubuntustaller/master/admin_rights_hotfix.sql
 cat admin_rights_hotfix.sql | mysql -u root  -p stg --password=${MYSQL_PASSWD}
 perl -e "s/123456/${STG_PASS}/g" -pi ./config/billing.ini
 perl -e "s/123456/${STG_PASS}/g" -pi ./userstats/config/userstats.ini
