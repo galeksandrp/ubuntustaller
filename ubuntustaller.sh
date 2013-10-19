@@ -143,5 +143,6 @@ sed -i "s/EXTERNAL_IFACE/${WAN_IFACE}/g" /etc/init.d/ubilling
 sed -i "s/INTERNAL_NETWORK/${LAN_NET}/g" /etc/init.d/ubilling
 sed -i "s/INTERNAL_MASK/${LAN_MASK}/g" /etc/init.d/ubilling
 sed -i "s/INTERNAL_IFACE/${LAN_IFACE}/g" /etc/init.d/ubilling
+ln -fs /usr/sbin/ipset /usr/local/sbin/ipset
 
 update-rc.d ubilling defaults
