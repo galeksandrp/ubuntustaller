@@ -2,10 +2,17 @@
 
 #config section
 #===============================================
-MYSQL_PASSWD="changeme"
+MYSQL_PASSWD="changemedb"
 STG_PASS="stgpass"
+LAN_IFACE="eth0"
+WAN_IFACE="eth1"
 
 #===============================================
+
+
+#setting mysql passwords
+echo mysql-server-5.5 mysql-server/root_password password ${MYSQL_PASSWD} | debconf-set-selections
+echo mysql-server-5.5 mysql-server/root_password_again password {MYSQL_PASSWD} | debconf-set-selections
 
 #deps install
 apt-get -y install mysql-server-core-5.5 mysql-client-core-5.5 libmysqlclient18 libmysqlclient-dev apache2 mysql-server expat libexpat-dev php5-cli libapache2-mod-php5 php5-mysql dhcp3-server build-essential bind9 bandwidthd softflowd
@@ -29,19 +36,19 @@ mkdir /etc/sysconfig
 mkdir /etc/sysconfig/htb
 cd /etc/sysconfig/htb 
 
-touch eth0
-touch eth1
-touch eth0-2.root
-touch eth1-2.root
+touch ${LAN_IFACE}
+touch ${WAN_IFACE}
+touch ${LAN_IFACE}-2.root
+touch ${WAN_IFACE}-2.root
 
-echo "DEFAULT=0" >> eth0
-echo "R2Q=100" >> eth0
-echo "DEFAULT=0" >> eth1
-echo "R2Q=100" >> eth1
-echo "RATE=100Mbit" >> eth0-2.root
-echo "CEIL=100Mbit" >> eth0-2.root
-echo "RATE=100Mbit" >> eth1-2.root
-echo "CEIL=100Mbit" >> eth1-2.root
+echo "DEFAULT=0" >> ${LAN_IFACE}
+echo "R2Q=100" >> ${LAN_IFACE}
+echo "DEFAULT=0" >> ${WAN_IFACE}
+echo "R2Q=100" >> ${WAN_IFACE}
+echo "RATE=100Mbit" >> ${LAN_IFACE}-2.root
+echo "CEIL=100Mbit" >> ${LAN_IFACE}-2.root
+echo "RATE=100Mbit" >> ${WAN_IFACE}-2.root
+echo "CEIL=100Mbit" >> ${WAN_IFACE}-2.root
 
 service htb restart
 
