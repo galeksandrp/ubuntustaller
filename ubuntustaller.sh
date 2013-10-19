@@ -108,7 +108,7 @@ perl -e "s/123456/${STG_PASS}/g" -pi ./userstats/config/userstats.ini
 sed -i "s/\/usr\/local\/bin\/sudo/\/usr\/bin\/sudo/g" ./config/billing.ini
 sed -i "s/\/usr\/bin\/top -b/\/usr\/bin\/top -b -n 1/g" ./config/billing.ini
 sed -i "s/\/usr\/bin\/grep/\/bin\/grep/g" ./config/billing.ini
-sed -i "s/\/usr\/local\/etc\/rc.d\/isc-dhcpd/\/etc\/init.d\/dhcp3-server/g" ./config/billing.ini
+sed -i "s/\/usr\/local\/etc\/rc.d\/isc-dhcpd/\/etc\/init.d\/isc-dhcp-server/g" ./config/billing.ini
 sed -i "s/\/sbin\/ping/\/bin\/ping/g" ./config/billing.ini
 sed -i "s/\/var\/log\/messages/\/var\/log\/dhcpd.log/g" ./config/alter.ini
 
@@ -141,5 +141,5 @@ sed -i "s/EXTERNAL_IP/${WAN_IP}/g" /etc/init.d/ubilling
 sed -i "s/EXTERNAL_IFACE/${WAN_IFACE}/g" /etc/init.d/ubilling
 sed -i "s/INTERNAL_NETWORK/${LAN_NET}/g" /etc/init.d/ubilling
 sed -i "s/INTERNAL_IFACE/${LAN_IFACE}/g" /etc/init.d/ubilling
-sed -i "s/ / /g" /etc/init.d/ubilling
+
 update-rc.d ubilling defaults
