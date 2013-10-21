@@ -149,9 +149,12 @@ update-rc.d ubilling defaults
 mkdir /etc/stargazer/dn
 ln -fs  /usr/bin/php /usr/local/bin/php 
 ln -fs /usr/sbin/ipset /usr/local/sbin/ipset
-sed -i "s/eth0/${WAN_IFACE}/g" /etc/stargazer/OnConnect
-sed -i "s/eth1/${LAN_IFACE}/g" /etc/stargazer/OnConnect
-sed -i "s/eth0/${WAN_IFACE}/g" /etc/stargazer/OnDisconnect
-sed -i "s/eth1/${LAN_IFACE}/g" /etc/stargazer/OnDisconnect
+#sed -i "s/eth0/${WAN_IFACE}/g" /etc/stargazer/OnConnect
+#sed -i "s/eth1/${LAN_IFACE}/g" /etc/stargazer/OnConnect
+#sed -i "s/eth0/${WAN_IFACE}/g" /etc/stargazer/OnDisconnect
+#sed -i "s/eth1/${LAN_IFACE}/g" /etc/stargazer/OnDisconnect
 echo "INTERFACE=\"${LAN_IFACE}\"" >  /etc/default/softflowd
 echo "OPTIONS=\"-n 127.0.0.1:42111\"" >> /etc/default/softflowd
+#clean stargazer sample data before start
+echo "TRUNCATE TABLE users" | mysql -u root  -p stg --password=${MYSQL_PASSWD}
+echo "TRUNCATE TABLE tariffs" | mysql -u root  -p stg --password=${MYSQL_PASSWD}

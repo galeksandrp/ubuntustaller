@@ -29,22 +29,16 @@ $DHCP restart
 ######################################################################################
 #Разрешаем хождение пакетов
 echo 1 > /proc/sys/net/ipv4/ip_forward
-# Создаём списки для подсети: (172)
-$IPS -N FFIN ipmap --network ${USERS_NET}
-$IPS -N FSNAT ipmap --network ${USERS_NET}
-$IPS -N FSNATDROP ipmap --network ${USERS_NET}
+
 # Добавляем наши адреса в NAT таблицу
-$IPT -t nat -A POSTROUTING -m set --set FSNAT src -o $IF_WORLD -j SNAT --to-source $WAN_IP
-$IPT -t filter -I FORWARD -m set --set FFIN src,dst -j ACCEPT
-$IPT -t filter -I FORWARD -m set --set FFIN dst,src -j ACCEPT
-$IPT -t filter -I FORWARD -m set --set FSNATDROP src,dst -j DROP
-$IPT -t filter -I FORWARD -m set --set FSNATDROP dst,src -j DROP
+$IPT -P FORWARD DROP
+$IPT -t nat -A POSTROUTING -s ${USERS_NET} -o ${IF_WORLD} -j SNAT --to-source ${WAN_IP}
 # Запускаем Bandwindthd
 $BAND start
+#Запускаем softflowd
+$SOFTD start
 # Запускаем HTB (Шейпер)
 $HTB start
-# Запускаем прослушку Softflowd для (172)
-$SOFT
 # Запускаем Stargazer
 $STAR
      ;;
@@ -54,8 +48,7 @@ $STAR
 #Убиваем все процессы старгазера
 killall stargazer
 #Удаляем правила шейпера
-tc qdisc del dev ${LAN_IF} root #(172)
-
+tc qdisc del dev ${LAN_IF} root #
 #Останавливаем softflowd
 $SOFTD stop
 
@@ -70,12 +63,7 @@ $HTB stop
 
 $IPT -F
 $IPT -F -t nat
-$IPS -F FFIN
-$IPS -X FFIN
-$IPS -F FSNAT
-$IPS -X FSNAT
-$IPS -F FSNATDROP
-$IPS -X FSNATDROP
+
 
 
 #Удаляем учётные записи с конфигурацией шейпера.
