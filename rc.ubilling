@@ -18,7 +18,7 @@ BAND="/etc/init.d/bandwidthd" # Путь до init.d скрипта Bandwindthd
 STAR="/usr/sbin/stargazer" # Путь до bin файла stargazer
 SOFTD="/etc/init.d/softflowd" #  Путь до init.d скрипта  Softflowd
 #Softflowd для разных подсетей
-SOFT="/usr/sbin/softflowd -i ${LAN_IF}  -n 127.0.0.1:42111" # Тут указываем интерфейс на котором висят пользователи 
+
 
  case "$1" in
    start)
@@ -68,7 +68,6 @@ $HTB stop
 
 # Чистим правила в таблицах Iptables и удаляем списки IPSET
 
-#(172)
 $IPT -F
 $IPT -F -t nat
 $IPS -F FFIN
