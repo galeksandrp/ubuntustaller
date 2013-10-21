@@ -153,3 +153,5 @@ sed -i "s/eth0/${WAN_IFACE}/g" /etc/stargazer/OnConnect
 sed -i "s/eth1/${LAN_IFACE}/g" /etc/stargazer/OnConnect
 sed -i "s/eth0/${WAN_IFACE}/g" /etc/stargazer/OnDisconnect
 sed -i "s/eth1/${LAN_IFACE}/g" /etc/stargazer/OnDisconnect
+echo "INTERFACE=\"${LAN_IFACE}\"" >  /etc/default/softflowd
+echo "OPTIONS=\"-n 127.0.0.1:42111\"" >> /etc/default/softflowd
