@@ -148,16 +148,25 @@ sed -i "s/INTERNAL_MASK/${LAN_MASK}/g" /etc/init.d/ubilling
 sed -i "s/INTERNAL_IFACE/${LAN_IFACE}/g" /etc/init.d/ubilling
 update-rc.d ubilling defaults
 
+#
 #post install ugly hacks
+#
 mkdir /etc/stargazer/dn
 ln -fs  /usr/bin/php /usr/local/bin/php 
 ln -fs /usr/sbin/ipset /usr/local/sbin/ipset
-#sed -i "s/eth0/${WAN_IFACE}/g" /etc/stargazer/OnConnect
-#sed -i "s/eth1/${LAN_IFACE}/g" /etc/stargazer/OnConnect
-#sed -i "s/eth0/${WAN_IFACE}/g" /etc/stargazer/OnDisconnect
-#sed -i "s/eth1/${LAN_IFACE}/g" /etc/stargazer/OnDisconnect
+#sed -i "s/EXTERNAL_IFACE/${WAN_IFACE}/g" /etc/stargazer/OnConnect
+#sed -i "s/INTERNAL_IFACE/${LAN_IFACE}/g" /etc/stargazer/OnConnect
+#sed -i "s/EXTERNAL_IFACE/${WAN_IFACE}/g" /etc/stargazer/OnDisconnect
+#sed -i "s/INTERNAL_IFACE/${LAN_IFACE}/g" /etc/stargazer/OnDisconnect
 echo "INTERFACE=\"${LAN_IFACE}\"" >  /etc/default/softflowd
 echo "OPTIONS=\"-n 127.0.0.1:42111\"" >> /etc/default/softflowd
+#make bandwithd works - deb packages has broken post install scripts
+wget https://raw.github.com/nightflyza/ubuntustaller/master/bandwidhtd.conf
+cp -f bandwidthd.conf /etc/bandwidthd/
+sed -i "s/INTERNAL_NETWORK/${LAN_NET}/g"  /etc/bandwidthd/bandwidthd.conf
+sed -i "s/INTERNAL_MASK/${LAN_MASK}/g"  /etc/bandwidthd/bandwidthd.conf
+sed -i "s/INTERNAL_IFACE/${LAN_IFACE}/g" /etc/bandwidthd/bandwidthd.conf
+
 #clean stargazer sample data before start
 echo "TRUNCATE TABLE users" | mysql -u root  -p stg --password=${MYSQL_PASSWD}
 echo "TRUNCATE TABLE tariffs" | mysql -u root  -p stg --password=${MYSQL_PASSWD}
