@@ -41,7 +41,23 @@ EXT_IP=`cat /tmp/ubextip`
 wget https://raw.github.com/nightflyza/ubuntustaller/master/batchsetup.sh
 # params:
 # batchsetup.sh MYSQL_PASSWD STG_PASS RSD_PASS LAN_IFACE LAN_NET LAN_MASK WAN_IFACE WAN_IP
-bash batchsetup.sh ${MYSQL_PASSWD} ${STG_PASS} ${RSD_PASS}  ${LAN_IF} ${LAN_NETW} ${LAN_CIDR} ${EXT_IF} ${EXT_IP}
+bash ./batchsetup.sh ${MYSQL_PASSWD} ${STG_PASS} ${RSD_PASS}  ${LAN_IF} ${LAN_NETW} ${LAN_CIDR} ${EXT_IF} ${EXT_IP} > /tmp/ubuntustaller.log &
+
+
+{
+        i="0"
+        while (true)
+        do
+            proc=$(ps aux | grep -v grep | grep -e "batchsetup.sh")
+            if [[ "$proc" == "" ]]; then break; fi
+            sleep 5
+            echo $i
+            i=$(expr $i + 1)
+        done
+        echo 100
+        sleep 6
+} | $DIALOG --title "Installing ubilling" --gauge "Please wait..." 8 78 0
+
 $DIALOG --title "Installation complete" --msgbox "Now you can access your web-interface by address http://${SERVER_IP}/billing/ with login and password: admin/demo. Please reboot your server to check correct startup of all services" 15 50
 ;;
 1)
