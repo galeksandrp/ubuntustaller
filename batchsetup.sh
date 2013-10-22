@@ -90,7 +90,7 @@ cd ../sgconf_xml/ && ./build && make && make install
 wget https://raw.github.com/nightflyza/ubuntustaller/master/stargazer.conf
 cp -R stargazer.conf /etc/stargazer/
 perl -e "s/newpassword/${MYSQL_PASSWD}/g" -pi /etc/stargazer/stargazer.conf
-
+perl -e "s/secretpassword/${RSD_PASS}/g" -pi /etc/stargazer/stargazer.conf
 #updating rules file
 echo "ALL     0.0.0.0/0       DIR0" > /etc/stargazer/rules
 
