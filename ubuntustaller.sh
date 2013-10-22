@@ -9,6 +9,8 @@ LAN_NET="172.16.0.0"
 LAN_MASK="24"
 WAN_IFACE="eth1"
 WAN_IP="10.0.3.15"
+UBILLING_RELEASE_URL="http://ubilling.net.ua/"
+UBILLING_RELEASE_NAME="ub.tgz"
 
 #===============================================
 
@@ -16,6 +18,13 @@ WAN_IP="10.0.3.15"
 #setting mysql passwords
 echo mysql-server-5.5 mysql-server/root_password password ${MYSQL_PASSWD} | debconf-set-selections
 echo mysql-server-5.5 mysql-server/root_password_again password ${MYSQL_PASSWD} | debconf-set-selections
+
+#setting bandwidhtd selections
+echo bandwidthd bandwidthd/outputcdf boolean true | debconf-set-selections
+echo bandwidthd bandwidthd/recovercdf boolean true | debconf-set-selections
+echo bandwidthd bandwidthd/dev select ${LAN_IFACE} | debconf-set-selections
+echo bandwidthd bandwidthd/promisc boolean false | debconf-set-selections
+echo bandwidthd bandwidthd/subnet string ${LAN_NET}/${LAN_MASK} | debconf-set-selections
 
 #deps install
 apt-get -y install mysql-server-core-5.5 mysql-client-core-5.5 libmysqlclient18 libmysqlclient-dev apache2 mysql-server expat libexpat-dev php5-cli libapache2-mod-php5 php5-mysql dhcp3-server build-essential bind9 bandwidthd softflowd arping
@@ -85,8 +94,8 @@ killall stargazer
 cd /var/www/
 mkdir billing
 cd billing
-wget http://ubilling.net.ua/ub.tgz
-tar zxvf ub.tgz
+wget ${UBILLING_RELEASE_URL}${UBILLING_RELEASE_NAME}
+tar zxvf ${UBILLING_RELEASE_NAME}
 chmod -R 0777 content/ config/ multinet/ exports/ remote_nas.conf
 #apply dump
 cat /var/www/billing/docs/test_dump.sql | mysql -u root -p${MYSQL_PASSWD} stg
@@ -154,10 +163,10 @@ update-rc.d ubilling defaults
 mkdir /etc/stargazer/dn
 ln -fs  /usr/bin/php /usr/local/bin/php 
 ln -fs /usr/sbin/ipset /usr/local/sbin/ipset
-#sed -i "s/EXTERNAL_IFACE/${WAN_IFACE}/g" /etc/stargazer/OnConnect
-#sed -i "s/INTERNAL_IFACE/${LAN_IFACE}/g" /etc/stargazer/OnConnect
-#sed -i "s/EXTERNAL_IFACE/${WAN_IFACE}/g" /etc/stargazer/OnDisconnect
-#sed -i "s/INTERNAL_IFACE/${LAN_IFACE}/g" /etc/stargazer/OnDisconnect
+sed -i "s/EXTERNAL_IFACE/${WAN_IFACE}/g" /etc/stargazer/OnConnect
+sed -i "s/INTERNAL_IFACE/${LAN_IFACE}/g" /etc/stargazer/OnConnect
+sed -i "s/EXTERNAL_IFACE/${WAN_IFACE}/g" /etc/stargazer/OnDisconnect
+sed -i "s/INTERNAL_IFACE/${LAN_IFACE}/g" /etc/stargazer/OnDisconnect
 echo "INTERFACE=\"${LAN_IFACE}\"" >  /etc/default/softflowd
 echo "OPTIONS=\"-n 127.0.0.1:42111\"" >> /etc/default/softflowd
 #make bandwithd works - deb packages has broken post install scripts
