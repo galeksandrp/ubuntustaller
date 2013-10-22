@@ -41,7 +41,7 @@ EXT_IP=`cat /tmp/ubextip`
 wget https://raw.github.com/nightflyza/ubuntustaller/master/batchsetup.sh
 # params:
 # batchsetup.sh MYSQL_PASSWD STG_PASS RSD_PASS LAN_IFACE LAN_NET LAN_MASK WAN_IFACE WAN_IP
-bash ./batchsetup.sh ${MYSQL_PASSWD} ${STG_PASS} ${RSD_PASS}  ${LAN_IF} ${LAN_NETW} ${LAN_CIDR} ${EXT_IF} ${EXT_IP} > /tmp/ubuntustaller.log &
+bash ./batchsetup.sh ${MYSQL_PASSWD} ${STG_PASS} ${RSD_PASS}  ${LAN_IF} ${LAN_NETW} ${LAN_CIDR} ${EXT_IF} ${EXT_IP} &> /tmp/ubuntustaller.log &
 
 
 {
