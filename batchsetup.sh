@@ -1,14 +1,25 @@
 #!/bin/sh
 
+EXPECTED_ARGS=8
+E_BADARGS=65
+
+if [ $# -ne $EXPECTED_ARGS ]
+then
+  echo "Usage: batchsetup.sh MYSQL_PASSWD STG_PASS RSD_PASS LAN_IFACE LAN_NET LAN_MASK WAN_IFACE WAN_IP"
+  exit $E_BADARGS
+fi
+
+
 #config section
 #===============================================
-MYSQL_PASSWD="changemedb"
-STG_PASS="stgpass"
-LAN_IFACE="eth0"
-LAN_NET="172.16.0.0"
-LAN_MASK="24"
-WAN_IFACE="eth1"
-WAN_IP="10.0.3.15"
+MYSQL_PASSWD=$1
+STG_PASS=$2
+RSD_PASS=$3
+LAN_IFACE=$4
+LAN_NET=$5
+LAN_MASK=$6
+WAN_IFACE=$7
+WAN_IP=$8
 UBILLING_RELEASE_URL="http://snaps.ubilling.net.ua/"
 UBILLING_RELEASE_NAME="ub_current.tgz"
 
