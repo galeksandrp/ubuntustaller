@@ -9,8 +9,8 @@ LAN_NET="172.16.0.0"
 LAN_MASK="24"
 WAN_IFACE="eth1"
 WAN_IP="10.0.3.15"
-UBILLING_RELEASE_URL="http://ubilling.net.ua/"
-UBILLING_RELEASE_NAME="ub.tgz"
+UBILLING_RELEASE_URL="http://snaps.ubilling.net.ua/"
+UBILLING_RELEASE_NAME="ub_current.tgz"
 
 #===============================================
 
@@ -170,7 +170,7 @@ sed -i "s/INTERNAL_IFACE/${LAN_IFACE}/g" /etc/stargazer/OnDisconnect
 echo "INTERFACE=\"${LAN_IFACE}\"" >  /etc/default/softflowd
 echo "OPTIONS=\"-n 127.0.0.1:42111\"" >> /etc/default/softflowd
 #make bandwithd works - deb packages has broken post install scripts
-wget https://raw.github.com/nightflyza/ubuntustaller/master/bandwidhtd.conf
+wget https://raw.github.com/nightflyza/ubuntustaller/master/bandwidthd.conf
 cp -f bandwidthd.conf /etc/bandwidthd/
 sed -i "s/INTERNAL_NETWORK/${LAN_NET}/g"  /etc/bandwidthd/bandwidthd.conf
 sed -i "s/INTERNAL_MASK/${LAN_MASK}/g"  /etc/bandwidthd/bandwidthd.conf
