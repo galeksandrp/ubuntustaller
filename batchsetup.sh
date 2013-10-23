@@ -186,6 +186,9 @@ cp -f bandwidthd.conf /etc/bandwidthd/
 sed -i "s/INTERNAL_NETWORK/${LAN_NET}/g"  /etc/bandwidthd/bandwidthd.conf
 sed -i "s/INTERNAL_MASK/${LAN_MASK}/g"  /etc/bandwidthd/bandwidthd.conf
 sed -i "s/INTERNAL_IFACE/${LAN_IFACE}/g" /etc/bandwidthd/bandwidthd.conf
+#make htaccess works
+sed -i "s/AllowOverride\ None/AllowOverride\ All/g"   /etc/apache2/sites-enabled/000-default
+apachectl restart
 
 #clean stargazer sample data before start
 echo "TRUNCATE TABLE users" | mysql -u root  -p stg --password=${MYSQL_PASSWD}
