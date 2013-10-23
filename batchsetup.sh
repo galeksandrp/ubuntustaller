@@ -38,7 +38,7 @@ echo bandwidthd bandwidthd/promisc boolean false | debconf-set-selections
 echo bandwidthd bandwidthd/subnet string ${LAN_NET}/${LAN_MASK} | debconf-set-selections
 
 #deps install
-apt-get -y install mysql-server-core-5.5 mysql-client-core-5.5 libmysqlclient18 libmysqlclient-dev apache2 mysql-server expat libexpat-dev php5-cli libapache2-mod-php5 php5-mysql php5-snmp dhcp3-server build-essential bind9 bandwidthd softflowd arping snmp
+apt-get -y install mysql-server-core-5.5 mysql-client-core-5.5 libmysqlclient18 libmysqlclient-dev apache2 mysql-server expat libexpat-dev php5-cli libapache2-mod-php5 php5-mysql php5-snmp dhcp3-server build-essential bind9 bandwidthd softflowd arping snmp nmap
 #apache php enabling 
 a2enmod php5
 apachectl restart
@@ -135,7 +135,7 @@ sed -i "s/\/var\/log\/messages/\/var\/log\/dhcpd.log/g" ./config/alter.ini
 sed -i "s/\/usr\/local\/sbin\/arping/\/usr\/sbin\/arping/g" ./config/alter.ini
 sed -i "s/rl0/${LAN_IFACE}/g" ./config/alter.ini
 sed -i "s/\/usr\/local\/bin\/snmpwalk/\/usr\/bin\/snmpwalk/g" ./config/alter.ini
-
+sed -i "s/\/usr\/local\/bin\/nmap/\/usr\/bin\/nmap/g" ./config/alter.ini
 
 #setting up dhcpd
 ln -fs /var/www/billing/multinet/ /etc/dhcp/multinet
