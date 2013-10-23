@@ -124,8 +124,6 @@ perl -e "s/123456/${STG_PASS}/g" -pi ./config/billing.ini
 perl -e "s/123456/${STG_PASS}/g" -pi ./userstats/config/userstats.ini
 
 #updating linux specific things
-
-
 sed -i "s/\/usr\/local\/bin\/sudo/\/usr\/bin\/sudo/g" ./config/billing.ini
 sed -i "s/\/usr\/bin\/top -b/\/usr\/bin\/top -b -n 1/g" ./config/billing.ini
 sed -i "s/\/usr\/bin\/grep/\/bin\/grep/g" ./config/billing.ini
@@ -191,6 +189,12 @@ sed -i "s/INTERNAL_IFACE/${LAN_IFACE}/g" /etc/bandwidthd/bandwidthd.conf
 sed -i "s/AllowOverride\ None/AllowOverride\ All/g"   /etc/apache2/sites-enabled/000-default
 apachectl restart
 
+#installing auto update script
+cd /tmp/
+wget https://raw.github.com/nightflyza/ubuntustaller/master/autoubupdate.sh
+cp -f autoubupdate.sh /var/www/
+
 #clean stargazer sample data before start
 echo "TRUNCATE TABLE users" | mysql -u root  -p stg --password=${MYSQL_PASSWD}
 echo "TRUNCATE TABLE tariffs" | mysql -u root  -p stg --password=${MYSQL_PASSWD}
+
