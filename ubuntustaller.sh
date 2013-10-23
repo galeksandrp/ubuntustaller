@@ -51,12 +51,12 @@ bash ./batchsetup.sh ${MYSQL_PASSWD} ${STG_PASS} ${RSD_PASS}  ${LAN_IF} ${LAN_NE
         do
             proc=$(ps aux | grep -v grep | grep -e "batchsetup.sh")
             if [[ "$proc" == "" ]]; then break; fi
-            sleep 2
+            sleep 1
             echo $i
             i=$(expr $i + 1)
         done
         echo 100
-        sleep 3
+        sleep 2
 } | $DIALOG --title "Installing ubilling" --gauge "Please wait..." 8 78 0
 
 $DIALOG --title "Installation complete" --msgbox "Now you can access your web-interface by address http://${SERVER_IP}/billing/ with login and password: admin/demo. Please reboot your server to check correct startup of all services" 15 50
