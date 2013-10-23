@@ -9,10 +9,10 @@
 ######################## CONFIG SECTION ########################
 
 # fetch software
-FETCH="fetch"
+FETCH="wget"
 
 # path to your apache data
-APACHE_DATA_PATH="/usr/local/www/apache22/data/"
+APACHE_DATA_PATH="/var/www/"
 
 # ubilling path
 UBILLING_PATH="./billing/"
