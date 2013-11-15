@@ -20,8 +20,8 @@ LAN_NET=$5
 LAN_MASK=$6
 WAN_IFACE=$7
 WAN_IP=$8
-UBILLING_RELEASE_URL="http://snaps.ubilling.net.ua/"
-UBILLING_RELEASE_NAME="ub_current.tgz"
+UBILLING_RELEASE_URL="http://ubilling.net.ua/"
+UBILLING_RELEASE_NAME="ub.tgz"
 
 #===============================================
 
